@@ -1,1 +1,301 @@
+1. Linked List Insertion 
+  class Solution{
+  public:
+    //Function to insert a node at the beginning of the linked list.
+    Node *insertAtBegining(Node *head, int x) {
+       // Your code here
+       if(head == NULL)
+      {
+          Node *newNode  = new Node(x);
+          newNode->next = NULL;
+          return newNode;
+      }
+      Node *newNode = new Node(x);
+      newNode->next = head;
+      
+      head = newNode;  
+      return head;
+    }
+    
+    
+    //Function to insert a node at the end of the linked list.
+    Node *insertAtEnd(Node *head, int x)  {
+       // Your code here
+        if(head == NULL)
+      {
+          Node *newNode = new Node(x);
+          newNode->next = NULL;
+          return newNode;
+          
+      }
+      Node *newNode = new Node(x);
+      Node *temp = head;
+      while(temp->next!=NULL)
+      {
+          temp = temp->next;
+          
+      }
+      temp->next = newNode;
+      newNode->next = NULL;
+      return head;
+    }
+};
+
+
+2. Delete Node in a Linked List
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val=node->next->val;
+        node->next=node->next->next;
+    }
+};
+
+
+3. Remove Nth Node From End of List
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+       ListNode* cur=head;
+        ListNode* cur1=head;
+        int count=0;
+        while(cur!=NULL)
+        {
+            cur=cur->next;
+            count++;
+        }
+        if(count==0)
+        {   return head;}
+        count=count-n;
+        if(count==0){ head=head->next;  return head;}
+        while(count!=1){
+            cur1=cur1->next;
+            count--;
+        }
+        cur1->next=cur1->next->next;
+        return head;
+    }
+    
+};
+
+
+4. Reverse Linked List
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+          ListNode *prev=NULL,*cur=head,*Next=NULL;
+        while(cur!=NULL)
+        {
+            Next=cur->next;
+            cur->next=prev;
+            prev=cur;
+            cur=Next;
+        }
+        head=prev;
+        return prev;
+    }
+};
+
+
+5. Merge Two Sorted Lists
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* head = list1;
+        ListNode* tail;
+        
+        if(list1 && list2)
+        {
+           
+            
+            if(list2->val < list1->val)
+            {
+                
+                head = tail = list2;
+                list2 = list2->next;
+            }
+            else
+            {
+                
+                head = tail = list1;
+                list1 = list1->next;
+            }
+
+            
+            while(list1 != nullptr &&  list2 != nullptr)
+            {
+                
+                
+                if(list1->val <= list2->val)
+                {
+                    
+                    tail->next = list1;
+                    list1 = list1->next;
+                    tail = tail->next;
+                }
+                else 
+                {
+                    
+                    tail->next = list2;
+                    list2 = list2->next;
+                    tail = tail->next;
+                }
+                
+            }
+            
+            
+            if(list2)
+            {
+                
+                tail->next = list2;
+            }
+            else if(list1)
+            {
+                
+                tail->next = list1;
+            }
+                
+        }
+        else if(list2)
+        {
+           
+            head = list2;
+        }
+        
+        
+        return head; 
+    }
+};
+
+
+6. Palindrome Linked List
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        vector<int>vec,rev;
+        ListNode *cur=head;
+        while(cur!=NULL)
+        {
+            vec.push_back(cur->val);
+            rev.push_back(cur->val);
+            cur=cur->next;
+        }
+        reverse(rev.begin(),rev.end());
+        return vec==rev;
+    }
+};
+
+
+7. Linked List Cycle
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(!head || !head->next) 
+            return false;
+ 				ListNode *slow = head;
+ 				ListNode *fast = head->next;
+ 				if(slow == fast) 
+                    return true;
+ 				while(fast!=NULL && fast->next!=NULL)
+ 				{
+ 					slow = slow->next;
+ 					fast = fast->next->next;
+ 					if(fast == slow) 
+                        return true;
+
+ 				}
+ 				return false;
+
+        
+    }
+};
+
+
+8. Remove Duplicates from Sorted List
+  /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head or !head->next) 
+            return head;
+  		ListNode *fast=head, *slow=head->next;
+  		while(slow)
+  		{
+  			if(slow->val != fast->val)
+  			{
+  				fast = fast->next;
+  				fast->val = slow->val;
+  			}
+  			slow = slow->next;
+  		}
+  		delete fast->next;
+  		fast->next = NULL;
+  		return head;
+    }
+};
 
